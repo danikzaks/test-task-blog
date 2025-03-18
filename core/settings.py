@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -27,6 +28,7 @@ INSTALLED_APPS = [
     "cachalot",
     "clearcache",
     "axes",
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -133,7 +135,6 @@ CKEDITOR_CONFIGS = {"default": {"toolbar": "basic", "height": 200, "width": "100
 
 ADMIN_TOOLS_MENU = "admin_tools.menu.DefaultMenu"
 ADMIN_TOOLS_DASHBOARD = "admin_extensions.admin_tools.MyCustomDashboard"
-
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
