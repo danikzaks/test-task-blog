@@ -35,8 +35,35 @@ class MainPageView(APIView):
 class PostPagination(PageNumberPagination):
     page_size: int = 10
 
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 class PostsByRubricView(APIView):
+    @swagger_auto_schema(
+        operation_description="Получение постов по рубрике",
+        manual_parameters=[
+            openapi.Parameter(
+                "rubric_id",
+                openapi.IN_PATH,
+                description="ID рубрики, для которой нужно получить посты",
+                type=openapi.TYPE_INTEGER
+            )
+        ],
+        responses={
+            200: openapi.Response(
+                description="Успешный ответ с постами",
+                examples={
+                    "application/json": {
+                        "count": 10,
+                        "next": "http://example.com/api/posts/?page=2",
+                        "previous": None,
+                        "results": [{"id": 1, "title": "Post 1"}]
+                    }
+                },
+            ),
+            404: "Рубрика не найдена или нет постов для рубрики",
+        }
+    )
     def get(self, request: Any, rubric_id: int) -> Response:
         try:
             rubric = Rubric.objects.get(id=rubric_id)
@@ -61,6 +88,7 @@ class PostsByRubricView(APIView):
         serializer = PostSerializer(result_page, many=True)
 
         return paginator.get_paginated_response(serializer.data)
+
 
 
 class PostDetailView(RetrieveAPIView):
