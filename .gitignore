@@ -17,8 +17,7 @@ media
 staticfiles
 
 # Environment files
-.env
-*.env
+
 
 # VS Code
 .vscode/
