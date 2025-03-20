@@ -1,6 +1,8 @@
 import random
-from typing import Any, Dict
+from typing import Any
 
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.pagination import LimitOffsetPagination
@@ -35,8 +37,6 @@ class MainPageView(APIView):
 class PostPagination(PageNumberPagination):
     page_size: int = 10
 
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 
 class PostsByRubricView(APIView):
     @swagger_auto_schema(
@@ -46,7 +46,7 @@ class PostsByRubricView(APIView):
                 "rubric_id",
                 openapi.IN_PATH,
                 description="ID рубрики, для которой нужно получить посты",
-                type=openapi.TYPE_INTEGER
+                type=openapi.TYPE_INTEGER,
             )
         ],
         responses={
@@ -57,12 +57,12 @@ class PostsByRubricView(APIView):
                         "count": 10,
                         "next": "http://example.com/api/posts/?page=2",
                         "previous": None,
-                        "results": [{"id": 1, "title": "Post 1"}]
+                        "results": [{"id": 1, "title": "Post 1"}],
                     }
                 },
             ),
             404: "Рубрика не найдена или нет постов для рубрики",
-        }
+        },
     )
     def get(self, request: Any, rubric_id: int) -> Response:
         try:
@@ -88,7 +88,6 @@ class PostsByRubricView(APIView):
         serializer = PostSerializer(result_page, many=True)
 
         return paginator.get_paginated_response(serializer.data)
-
 
 
 class PostDetailView(RetrieveAPIView):

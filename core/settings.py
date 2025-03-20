@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     "cachalot",
     "clearcache",
     "axes",
-    'drf_yasg',
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -69,15 +69,21 @@ TEMPLATES = [
 WSGI_APPLICATION = "core.wsgi.application"
 
 if PRODUCTION_MODE:
+    # DATABASES = {
+    #     "default": {
+    #         "ENGINE": "django.db.backends.postgresql",
+    #         "NAME": os.getenv("PSQL_NAME"),
+    #         "USER": os.getenv("PSQL_USER"),
+    #         "PASSWORD": os.getenv("PSQL_PASSWORD"),
+    #         "HOST": "localhost",
+    #         "PORT": "5432",
+    #         "CONN_MAX_AGE": 60,
+    #     }
+    # }
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("PSQL_NAME"),
-            "USER": os.getenv("PSQL_USER"),
-            "PASSWORD": os.getenv("PSQL_PASSWORD"),
-            "HOST": "localhost",
-            "PORT": "5432",
-            "CONN_MAX_AGE": 60,
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
     CACHES = {
@@ -122,9 +128,12 @@ USE_I18N, USE_TZ = True, True
 LANGUAGES = [("ru", "Russian"), ("en", "English")]
 LOCALE_PATHS = [BASE_DIR / "locales"]
 
-STATIC_URL, MEDIA_URL = "/static/", "/media/"
-STATIC_ROOT, MEDIA_ROOT = BASE_DIR / "staticfiles", BASE_DIR / "media"
+STATIC_URL = "/static/"
+MEDIA_URL = "/media/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_ROOT = BASE_DIR / "media"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 APPEND_SLASH = True
 
@@ -140,3 +149,8 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
 }
+
+AUTHENTICATION_BACKENDS = [
+    "axes.backends.AxesStandaloneBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]

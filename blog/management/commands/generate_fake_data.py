@@ -8,7 +8,7 @@ from faker import Faker
 
 from blog.models import Rubric, Post
 
-fake = Faker('ru_RU')
+fake = Faker("ru_RU")
 
 
 class Command(BaseCommand):
@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         rubrics = []
-        for _ in range(10):
+        for _ in range(4):
             rubric = Rubric.objects.create(
                 name=fake.word(),
                 description=fake.text(),
@@ -24,7 +24,7 @@ class Command(BaseCommand):
             rubrics.append(rubric)
 
         for rubric in rubrics:
-            for _ in range(100):
+            for _ in range(50):
                 image_url = self.get_random_image_url()
                 image_file = self.download_image(image_url)
 
