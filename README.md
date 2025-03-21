@@ -43,6 +43,13 @@ source venv/bin/activate
 python3 -m pip install requirements.txt
 ```
 
+#### 3.1 
+
+```sh
+python3 manage.py makemigrations
+python3 manage.py migrate
+```
+
 ### 4. Создание рубрик/постов
 
 ```sh
